@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+body {
+  background: #0a0a0f;
+  color: white;
+  font-family: monospace;
+}
+@keyframes phonkBeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06) rotate(0.5deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.phonk-beat {
+  animation: phonkBeat 0.6s infinite;
+}
