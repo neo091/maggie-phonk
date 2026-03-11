@@ -13,7 +13,6 @@ export default function Question({ data, onAnswer }: QuestionProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState<string | null>(null);
-  const [animateButton, setAnimateButton] = useState(false);
   const [flashError, setFlashError] = useState<string | null>(null);
   const [fade, setFade] = useState(false);
 
@@ -38,7 +37,6 @@ export default function Question({ data, onAnswer }: QuestionProps) {
     if (answer === data.answer) {
       setCorrectAnswer(answer);
       setRevealed(true);
-      setAnimateButton(true);
 
       playSnippet();
 
@@ -71,7 +69,6 @@ export default function Question({ data, onAnswer }: QuestionProps) {
   function resetState() {
     setRevealed(false);
     setCorrectAnswer(null);
-    setAnimateButton(false);
     setFlashError(null);
   }
 
@@ -117,7 +114,6 @@ export default function Question({ data, onAnswer }: QuestionProps) {
             onClick={handleOption}
             disabled={revealed}
             isCorrect={opt === correctAnswer}
-            animate={animateButton && opt === correctAnswer}
             flashError={flashError === opt}
           />
         ))}
