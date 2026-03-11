@@ -1,5 +1,5 @@
 export interface QuestionType {
-  id: number
+  id: number | string
   audio: string
   start: number
   image: string

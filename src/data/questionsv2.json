@@ -38,5 +38,57 @@
       "MATADORA (Extended)"
     ],
     "answer": "MATADORA (Extended)"
+  },
+  {
+    "id": "qX8VZsPEhD4",
+    "audio": "https://www.youtube.com/watch?v=qX8VZsPEhD4",
+    "image": "/images/atlxs_-_passo_bem_solto_extended.jpg",
+    "question": "¿Qué canción phonk es esta?",
+    "options": [
+      "ATLXS - PASSO BEM SOLTO (Extended)",
+      "Pharmacist - Overdose",
+      "GOZALO (Slowed)",
+      "MATADORA (Extended)"
+    ],
+    "answer": "GOZALO (Slowed)"
+  },
+  {
+    "id": "cUpoy1J4C7I",
+    "audio": "https://www.youtube.com/watch?v=cUpoy1J4C7I",
+    "image": "/images/atlxs_-_passo_bem_solto_extended.jpg",
+    "question": "¿Qué canción phonk es esta?",
+    "options": [
+      "ATLXS - PASSO BEM SOLTO (Extended)",
+      "BAD HAPPENING FUNK (Slowed + Extended)",
+      "GOZALO (Slowed)",
+      "MATADORA (Extended)"
+    ],
+    "answer": "BAD HAPPENING FUNK (Slowed + Extended)"
+  },
+  {
+    "id": "mjsJzKry6E0",
+    "audio": "https://www.youtube.com/watch?v=mjsJzKry6E0",
+    "image": "/images/atlxs_-_passo_bem_solto_extended.jpg",
+    "question": "¿Qué canción phonk es esta?",
+    "options": [
+      "ATLXS - PASSO BEM SOLTO (Extended)",
+      "FUNK DO BOUNCE",
+      "GOZALO (Slowed)",
+      "MATADORA (Extended)"
+    ],
+    "answer": "FUNK DO BOUNCE"
+  },
+  {
+    "id": "N_fNNf8lt-M",
+    "audio": "https://www.youtube.com/watch?v=N_fNNf8lt-M",
+    "image": "/images/atlxs_-_passo_bem_solto_extended.jpg",
+    "question": "¿Qué canción phonk es esta?",
+    "options": [
+      "ATLXS - PASSO BEM SOLTO (Extended)",
+      "67 FUNK - SHX4 x FYU",
+      "GOZALO (Slowed)",
+      "MATADORA (Extended)"
+    ],
+    "answer": "67 FUNK - SHX4 x FYU"
   }
 ]
