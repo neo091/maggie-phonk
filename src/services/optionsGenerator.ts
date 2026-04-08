@@ -11,7 +11,7 @@ const PHONK_OPTIONS = [
   "Homecoming",
   "UK Drill Beat",
   "Phonkadelic",
-  "Dark Phonk Energy",
+  "Dark Phonk Energy (slowed)",
   "Toxic Beats",
   "Night Drive",
   "Cyber Runner",
@@ -31,7 +31,7 @@ const PHONK_OPTIONS = [
   "Dark Matter",
   "Shadow Zone",
   "Digital Dreams",
-  "Cyber Phonk",
+  "Cyber Phonk (slowed)",
   "Night Mode",
   "Phonk King",
   "Dark Ritual",
@@ -42,6 +42,7 @@ const PHONK_OPTIONS = [
   "Digital Nomad",
   "Retro Future",
   "Neon Dreams",
+  "Neon Dreams (slowed)",
 ];
 
 /**

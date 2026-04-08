@@ -4,8 +4,20 @@ import QuestionFrame from "../components/QuestionFrame";
 import ResultsModal from "../components/ResultsModal";
 import { useGame } from "../hooks/useGame";
 import { useLevels } from "../hooks/useLevels";
-import Button from "../components/Button";
 
+const ShowAura = ({ level }: { level: number }) => {
+  if (!level) return null;
+
+  const datos = Array.from({ length: level });
+
+  return (
+    <>
+      {datos.map((_, index) => (
+        <img key={index} className="w-10" src="/skull-aura.png" alt="aura" />
+      ))}
+    </>
+  );
+};
 const Game = () => {
   const { levels } = useLevels();
   const navigate = useNavigate();
@@ -29,21 +41,36 @@ const Game = () => {
           <h1 className="text-3xl sm:text-5xl font-black text-fuchsia-500 my-5  text-center">
             Seleccionar nivel
           </h1>
-          <section className="flex flex-col gap-4">
-            {levels.map((level) => {
-              return (
-                <>
-                  <Button
-                    onClick={() => {
-                      const levelID = level.id as number;
-                      updateLevel(levelID);
-                    }}
-                  >
+          <section className="flex flex-col gap-4 p-4">
+            {levels.map((level) => (
+              <button
+                key={level.id}
+                onClick={() => updateLevel(level.id)}
+                className="
+        flex items-center gap-4 p-4 rounded-2xl
+        bg-zinc-900 border border-zinc-700
+        hover:border-purple-500 hover:shadow-[0_0_15px_rgba(168,85,247,0.6)]
+        transition-all duration-300
+        active:scale-95
+      "
+              >
+                {/* Aura */}
+                <div className="flex gap-1">
+                  <ShowAura level={level.id} />
+                </div>
+
+                {/* Texto */}
+                <div className="flex flex-col text-left">
+                  <span className="text-white font-bold tracking-wider">
                     {level.nivel}
-                  </Button>
-                </>
-              );
-            })}
+                  </span>
+
+                  <span className="text-sm text-zinc-400">
+                    {level.preguntas} PREGUNTAS
+                  </span>
+                </div>
+              </button>
+            ))}
           </section>
         </div>
       </>

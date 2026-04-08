@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export interface Niveles {
-  id: Number;
+  id: number;
   nivel: string;
-  preguntas: Number;
+  preguntas: number;
 }
 
 export function useLevels() {
