@@ -1,7 +1,7 @@
 import { useFetch } from "./useFetch";
 import { useAuthStore } from "../store/authStore";
 
-const API_BASE_URL = "http://phonk-api.local/videos.php";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 interface VideoPayload {
   videoId: string;

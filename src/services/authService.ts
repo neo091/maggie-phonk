@@ -1,7 +1,7 @@
 import type { LoginInput } from "../schemas/authSchema";
 import { AuthResponseSchema } from "../schemas/authSchema";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const authService = {
   async login(credentials: LoginInput) {

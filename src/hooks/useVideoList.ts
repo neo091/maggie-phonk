@@ -8,7 +8,7 @@ export interface Video {
   options: string[];
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://phonk-api.local";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export function useVideoList() {
   const [videos, setVideos] = useState<Video[]>([]);

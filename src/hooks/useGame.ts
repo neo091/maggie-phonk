@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { QuestionType } from "../types/quiz";
 import { useGameStats } from "./useGameStats";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://phonk-api.local";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export function useGame() {
   const { stats, recordAnswer, reset } = useGameStats();
@@ -16,7 +16,9 @@ export function useGame() {
     if (!level) return;
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/videos.php?nivel_id=${level}`);
+      const response = await fetch(
+        `${API_BASE_URL}/videos.php?nivel_id=${level}`,
+      );
       if (!response.ok) throw new Error("Failed to fetch videos");
 
       const data = (await response.json()) as QuestionType[];
