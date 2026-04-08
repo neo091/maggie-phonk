@@ -1,4 +1,3 @@
-import React from "react";
 import { useVideoAPI, useAddVideoForm } from "../hooks";
 import { prepareVideoPayload } from "../services/videoService";
 import Form from "../components/Form";
@@ -20,7 +19,6 @@ const Add = () => {
     setVideoName,
     setVIdeoLevel,
     handleAddOption,
-    handleRemoveOption,
     setNewOption,
     toggleAddOptionsForm,
     validate,

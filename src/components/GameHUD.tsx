@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getPointsToNextLevel, getLevelColor } from "../services/gameStats";
 import type { GameStats } from "../services/gameStats";
 

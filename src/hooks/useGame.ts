@@ -31,7 +31,7 @@ export function useGame() {
     }
   };
 
-  const handleAnswer = (answer: string, isCorrect: boolean) => {
+  const handleAnswer = (_answer: string, isCorrect: boolean) => {
     recordAnswer(isCorrect);
     setTimeout(() => {
       setIndex((prev) => prev + 1);

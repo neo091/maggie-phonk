@@ -100,7 +100,13 @@ export default function Question({ data, onAnswer }: QuestionProps) {
     // Detener cualquier audio anterior
     stopAllAudio();
 
-    const audio = new Audio(data.audio);
+    const audioSource = data.audio || data.video_url;
+    if (!audioSource) {
+      console.warn("No audio or video URL available");
+      return;
+    }
+
+    const audio = new Audio(audioSource);
     audio.volume = 0.6;
     audioRef.current = audio;
 

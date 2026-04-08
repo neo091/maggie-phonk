@@ -1,6 +1,3 @@
-import React from "react";
-import Button from "./Button";
-
 interface VideoCardProps {
   videoId: string;
   title: string;

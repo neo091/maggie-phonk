@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import GameHUD from "../components/GameHUD";
 import QuestionFrame from "../components/QuestionFrame";
 import ResultsModal from "../components/ResultsModal";
 import { useGame } from "../hooks/useGame";
