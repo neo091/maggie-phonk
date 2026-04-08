@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://phonk-api.local";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export interface Niveles {
   id: Number;
