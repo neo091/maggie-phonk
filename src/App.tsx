@@ -1,19 +1,21 @@
 import { Route, Routes } from "react-router";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
-import Header from "./components/Header";
 import Game from "./pages/Game";
+import Login from "./pages/Login";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <>
-      <Header />
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/game" element={<Game />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route index element={<Home />} />
+      <Route path="/game" element={<Game />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/dashboard"
+        element={<ProtectedRoute element={<Dashboard />} />}
+      />
+    </Routes>
   );
 }
 

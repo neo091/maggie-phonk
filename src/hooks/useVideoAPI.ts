@@ -1,4 +1,5 @@
 import { useFetch } from "./useFetch";
+import { useAuthStore } from "../store/authStore";
 
 const API_BASE_URL = "http://phonk-api.local/videos.php";
 
@@ -18,24 +19,46 @@ interface VideoResponse {
 
 export function useVideoAPI() {
   const { data, loading, error, execute } = useFetch<VideoResponse>();
+  const { token } = useAuthStore();
 
   const addVideo = async (video: VideoPayload) => {
+    if (!token) {
+      throw new Error("No autenticado. Token no disponible");
+    }
+
     return execute(API_BASE_URL, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: video,
     });
   };
 
   const deleteVideo = async (id: number) => {
+    if (!token) {
+      throw new Error("No autenticado. Token no disponible");
+    }
+
     return execute(API_BASE_URL, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: { id },
     });
   };
 
   const getVideos = async () => {
+    if (!token) {
+      throw new Error("No autenticado. Token no disponible");
+    }
+
     return execute(API_BASE_URL, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
   };
 

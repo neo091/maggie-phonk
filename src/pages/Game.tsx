@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import Header from "../components/Header";
 import QuestionFrame from "../components/QuestionFrame";
 import ResultsModal from "../components/ResultsModal";
 import { useGame } from "../hooks/useGame";
@@ -23,6 +24,7 @@ const Game = () => {
   if (totalQuizzes === 0) {
     return (
       <>
+        <Header />
         <div className="max-w-md m-auto px-2">
           <h1 className="text-3xl sm:text-5xl font-black text-fuchsia-500 my-5  text-center">
             Seleccionar nivel
@@ -50,6 +52,7 @@ const Game = () => {
   if (isComplete) {
     return (
       <>
+        <Header />
         {/*<GameHUD stats={stats} />*/}
         <ResultsModal
           stats={stats}
@@ -63,6 +66,7 @@ const Game = () => {
 
   return (
     <>
+      <Header />
       {/*<GameHUD stats={stats} />*/}
       <div className="pt-32 pb-8">
         {!loading && current && (
