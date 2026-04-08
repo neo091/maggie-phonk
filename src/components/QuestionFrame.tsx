@@ -1,14 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Option from "./Option";
 import type { QuestionType } from "../types/quiz";
 
 interface QuestionProps {
   data: QuestionType;
-  onAnswer: (answer: string) => void;
+  onAnswer: (answer: string, isCorrect: boolean) => void;
   snippetStart?: number;
   snippetDuration?: number;
   fullDuration?: number; // duración completa al acertar
   isLast?: boolean; // indica si es la última pregunta
+  questionNumber?: number; // número de la pregunta actual
+  totalQuestions?: number; // total de preguntas
 }
 
 export default function QuestionFrame({
@@ -18,25 +20,44 @@ export default function QuestionFrame({
   snippetDuration = 5,
   fullDuration = 20000,
   isLast = false,
+  questionNumber = 1,
+  totalQuestions = 10,
 }: QuestionProps) {
   const [revealed, setRevealed] = useState(false);
   const [playingSnippet, setPlayingSnippet] = useState(false);
   const [playingFull, setPlayingFull] = useState(false);
   const [lastWrong, setLastWrong] = useState<string | null>(null);
+  const [snippetTimeout, setSnippetTimeout] = useState<number | null>(null);
 
   const fullTimeoutRef = useRef<number | null>(null);
 
-  const videoId = data.audio.split("v=")[1];
+  const videoId = data.video_id;
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
+  // Función para detener el snippet
+  function stopSnippet() {
+    if (snippetTimeout) {
+      clearTimeout(snippetTimeout);
+      setSnippetTimeout(null);
+    }
+    setPlayingSnippet(false);
+  }
+
   function handlePlay() {
-    if (!revealed) {
+    if (!revealed && !playingSnippet) {
       setPlayingSnippet(true);
-      setTimeout(() => setPlayingSnippet(false), snippetDuration * 1000);
+      const timeout = window.setTimeout(() => {
+        setPlayingSnippet(false);
+        setSnippetTimeout(null);
+      }, snippetDuration * 1000);
+      setSnippetTimeout(timeout);
     }
   }
 
   function handleOption(answer: string, optText: string) {
+    // Detener inmediatamente el snippet si está reproduciendo
+    stopSnippet();
+
     if (answer === data.answer) {
       setRevealed(true);
       setPlayingFull(true);
@@ -50,11 +71,11 @@ export default function QuestionFrame({
         setRevealed(false);
         setLastWrong(null);
         fullTimeoutRef.current = null;
-        onAnswer(answer);
+        onAnswer(answer, true); // Respuesta correcta
       }, fullDuration);
     } else {
       setLastWrong(optText);
-      onAnswer(answer);
+      onAnswer(answer, false); // Respuesta incorrecta
     }
   }
 
@@ -65,17 +86,31 @@ export default function QuestionFrame({
         clearTimeout(fullTimeoutRef.current);
         fullTimeoutRef.current = null;
       }
+      stopSnippet(); // Asegurar que el snippet también está detenido
       setPlayingFull(false);
       setRevealed(false);
       setLastWrong(null);
-      onAnswer(data.answer); // consideramos la respuesta correcta completada
+      onAnswer(data.answer, true); // consideramos la respuesta correcta completada
     }
   }
 
+  // Cleanup al desmontar el componente
+  useEffect(() => {
+    return () => {
+      if (fullTimeoutRef.current) clearTimeout(fullTimeoutRef.current);
+      if (snippetTimeout) clearTimeout(snippetTimeout);
+    };
+  }, [snippetTimeout]);
+
   return (
-    <div className="max-w-xl mx-auto text-center flex flex-col items-center gap-6 py-8">
+    <div className="w-full text-center flex flex-col items-center gap-4 sm:gap-6 py-6 sm:py-8 px-4">
+      {/* Indicador de progreso */}
+      <div className="w-full text-xs sm:text-sm text-slate-400 font-semibold">
+        Pregunta {questionNumber} de {totalQuestions}
+      </div>
+
       <div
-        className={`relative w-80 h-80 rounded-xl shadow-[0_0_60px_#ff00ff] overflow-hidden
+        className={`relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl shadow-[0_0_60px_#ff00ff] overflow-hidden border-2 border-fuchsia-500/30
         ${revealed ? "phonk-beat" : ""}`}
       >
         <img
@@ -108,25 +143,33 @@ export default function QuestionFrame({
             frameBorder="0"
           />
         )}
+
+        {/* Overlay con Play button */}
+        {!playingFull && !revealed && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <button
+              onClick={handlePlay}
+              disabled={playingSnippet}
+              className={`w-20 h-20 rounded-full bg-fuchsia-500/80 hover:bg-fuchsia-500 transition flex items-center justify-center shadow-lg text-4xl
+                ${playingSnippet ? "opacity-50" : ""}`}
+            >
+              🔊
+            </button>
+          </div>
+        )}
       </div>
 
-      <button
-        onClick={handlePlay}
-        className="bg-zinc-800 px-4 py-2 rounded"
-        disabled={playingSnippet || playingFull || revealed}
-      >
-        {playingSnippet ? "Reproduciendo..." : "🔊 Reproducir"}
-      </button>
+      <h2 className="text-xl sm:text-3xl font-black text-fuchsia-400 bg-gradient-to-r from-fuchsia-500 to-purple-500 bg-clip-text text-transparent px-2">
+        {data.question}
+      </h2>
 
-      <h2 className="text-2xl text-fuchsia-400">{data.question}</h2>
-
-      <div className="flex flex-col gap-3 w-full">
+      <div className="flex flex-col gap-2 sm:gap-3 w-full max-w-md">
         {data.options.map((opt, i) => (
           <Option
             key={i}
             text={opt}
             onClick={(value) => handleOption(value, opt)}
-            disabled={revealed}
+            disabled={revealed || playingSnippet}
             isCorrect={opt === data.answer}
             flashError={lastWrong === opt}
             revealed={revealed}
@@ -138,7 +181,7 @@ export default function QuestionFrame({
       {playingFull && !isLast && (
         <button
           onClick={handleNext}
-          className="mt-4 px-4 py-2 rounded bg-fuchsia-500 hover:bg-fuchsia-600"
+          className="mt-4 px-6 py-3 rounded-lg bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 font-bold text-black transition shadow-lg"
         >
           ➡️ Siguiente
         </button>

@@ -16,13 +16,23 @@ export default function Question({ data, onAnswer }: QuestionProps) {
   const [flashError, setFlashError] = useState<string | null>(null);
   const [fade, setFade] = useState(false);
 
+  // Función para detener todo audio
+  function stopAllAudio() {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setIsPlaying(false);
+  }
+
   function playSnippet() {
     if (!audioRef.current) return;
     const audio = audioRef.current;
 
     audio.pause();
     audio.currentTime = 0;
-    audio.play();
+    audio.play().catch((err) => console.log("Error playing audio:", err));
     setIsPlaying(true);
 
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -34,15 +44,28 @@ export default function Question({ data, onAnswer }: QuestionProps) {
   }
 
   function handleOption(answer: string) {
+    // Detener inmediatamente cualquier audio que esté reproduciendo
+    stopAllAudio();
+
     if (answer === data.answer) {
       setCorrectAnswer(answer);
       setRevealed(true);
 
-      playSnippet();
+      // Reproducir la música correcta completamente (sin timer de 5 segundos)
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0;
+          audioRef.current
+            .play()
+            .catch((err) => console.log("Error playing audio:", err));
+          setIsPlaying(true);
+        }
+      }, 100);
 
       setTimeout(() => {
         triggerFade();
         setTimeout(() => {
+          stopAllAudio(); // Detener antes de pasar a la siguiente
           onAnswer(answer);
           resetState();
         }, 500); // fade out delay
@@ -54,6 +77,7 @@ export default function Question({ data, onAnswer }: QuestionProps) {
       setTimeout(() => {
         triggerFade();
         setTimeout(() => {
+          stopAllAudio(); // Detener antes de pasar a la siguiente
           onAnswer(answer);
           resetState();
         }, 500);
@@ -73,16 +97,26 @@ export default function Question({ data, onAnswer }: QuestionProps) {
   }
 
   useEffect(() => {
+    // Detener cualquier audio anterior
+    stopAllAudio();
+
     const audio = new Audio(data.audio);
     audio.volume = 0.6;
     audioRef.current = audio;
+
+    // Auto-stop cuando el audio termine
+    audio.addEventListener("ended", () => {
+      setIsPlaying(false);
+    });
 
     playSnippet();
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
-      audio.pause();
-      setIsPlaying(false);
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
     };
   }, [data]);
 

@@ -28,24 +28,28 @@ export default function Option({
     }
   }, [flashError, revealed]);
 
-  let classes = "w-full p-3 rounded-lg border font-semibold transition-all ";
+  let classes =
+    "w-full p-3 sm:p-4 rounded-lg border-2 font-bold transition-all text-base sm:text-lg ";
 
   if (revealed) {
     if (isCorrect) {
       // opción correcta revelada
       classes +=
-        "bg-fuchsia-500 text-black phonk-beat scale-105 border-white border-2";
+        "bg-gradient-to-r from-green-500 to-green-600 text-white phonk-beat scale-105 border-green-400 shadow-lg shadow-green-500/50";
     } else {
-      // incorrectas reveladas: estilo normal, sin negro ni borde blanco
-      classes += "bg-zinc-900 border-fuchsia-500 text-white";
+      // incorrectas reveladas
+      classes += "bg-slate-700/50 border-slate-600 text-slate-300";
     }
   } else {
     if (flash) {
-      classes += "bg-red-600 text-white animate-pulse";
-    } else {
-      // antes de revelar, todas las opciones normales
       classes +=
-        "bg-zinc-900 border-fuchsia-500 hover:bg-fuchsia-500 hover:text-black";
+        "bg-red-500/80 text-white animate-pulse border-red-400 shadow-lg shadow-red-500/50";
+    } else if (disabled) {
+      classes +=
+        "bg-slate-800/50 border-slate-600/50 text-slate-500 cursor-not-allowed";
+    } else {
+      classes +=
+        "bg-slate-800 border-fuchsia-500/50 text-white hover:bg-gradient-to-r hover:from-fuchsia-500 hover:to-purple-600 hover:border-fuchsia-500 hover:text-black hover:scale-105 active:scale-95";
     }
   }
 
