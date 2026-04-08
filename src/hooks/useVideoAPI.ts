@@ -26,7 +26,7 @@ export function useVideoAPI() {
       throw new Error("No autenticado. Token no disponible");
     }
 
-    return execute(`${API_BASE_URL}/video.php`, {
+    return execute(`${API_BASE_URL}/videos.php`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ export function useVideoAPI() {
       throw new Error("No autenticado. Token no disponible");
     }
 
-    return execute(`${API_BASE_URL}/video.php`, {
+    return execute(`${API_BASE_URL}/videos.php`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export function useVideoAPI() {
       throw new Error("No autenticado. Token no disponible");
     }
 
-    return execute(`${API_BASE_URL}/video.php`, {
+    return execute(`${API_BASE_URL}/videos.php`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
